@@ -34,6 +34,7 @@ public class Constants {
         resultCodeMap.put("157", "请求超时");
         resultCodeMap.put("158", "验证码发送失败");
         resultCodeMap.put("159", "获取号码失败");
+        resultCodeMap.put("160", "产品ID未登记");
         resultCodeMap.put("999", "其他");
     }
 }

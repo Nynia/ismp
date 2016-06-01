@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
 import entity.CpInfo;
@@ -29,6 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 public class serviceOrderAction {
 
     private HashMap<String ,requestInfoRecod> recordHashMap;
+    private HashMap<String ,ProductInfo> productInfoHashMap;
     private CpInfo cpuser;
     private ProductInfo productInfo;
     @Resource
@@ -39,6 +42,8 @@ public class serviceOrderAction {
 
     public serviceOrderAction() {
         recordHashMap = new HashMap<String, requestInfoRecod>();
+        //productInfoHashMap = new HashMap<String, ProductInfo>();
+        //List<ProductInfo> productInfoList = productService;
     }
 
     @RequestMapping("serviceOrder")
@@ -73,57 +78,77 @@ public class serviceOrderAction {
                     orderid = utils.Tools.genOrderId(timestamp);
                     cpuser = configureService.getUserbyId(Integer.parseInt(spid));
                     productInfo = productService.getProductByProductId(productid);
-                    if (productInfo == null) {
-
+                    String ipstr = cpuser.getIp();
+                    String[] ip_list = ipstr.split(";");
+                    int flag = 0;
+                    for (int i=0; i<ip_list.length; i++) {
+                        if (ip.equals(ip_list[i])) {
+                            flag = 1;
+                            break;
+                        }
                     }
-                    String value = utils.Encrypt.SHA1(spid+timestamp+cpuser.getSecret());
-                    //token
-                    if (value.equals(token)) {
-                        if (type.equals("1")) {
-                            //level = 1
-                            if (cpuser.getLevel() == 1) {
-                                if (phonenum != null) {
-                                    //order
-                                    try {
-                                        resultCode = PortalEngineImplement.subscribe(phonenum, productid);
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
+                    // ip no restrict
+                    if (ipstr.equals("0.0.0.0")) {
+                        flag = 1;
+                    }
+                    if (productInfo != null && flag == 1) {
+                        String value = utils.Encrypt.SHA1(spid+timestamp+cpuser.getSecret());
+                        //token
+                        if (value.equals(token)) {
+                            if (type.equals("1")) {
+                                //level = 1
+                                if (cpuser.getLevel() == 1) {
+                                    if (phonenum != null) {
+                                        //order
+                                        try {
+                                            resultCode = PortalEngineImplement.subscribe(phonenum, productid);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    } else {
+                                        resultCode = "150";
                                     }
-                                } else {
-                                    resultCode = "150";
                                 }
+                                //level = 2
+                                else {
+                                    phonenum = utils.Tools.checkMdn(ip, port);
+                                    if (phonenum.startsWith("86")) {
+                                        phonenum = phonenum.substring(2);
+                                        System.out.println(phonenum);
+                                    }
+                                    requestInfoRecod orderRecord = new requestInfoRecod(ip, port, type, spid, productid,
+                                            productInfo.getProductName(), Integer.parseInt(productInfo.getPrice()),
+                                            phonenum, "", 0, System.currentTimeMillis(),action);
+                                    recordHashMap.put(orderid, orderRecord);
+                                    if (phonenum.equals("")) {
+                                        resultCode = "159";
+                                    }
+                                    else
+                                        resultCode = "0";
+                                    JSONObject orderinfo = new JSONObject();
+                                    orderinfo.put("phoneNum", phonenum);
+                                    orderinfo.put("orderId", orderid);
+                                    orderinfo.put("productName",productInfo.getProductName());
+                                    orderinfo.put("price", productInfo.getPrice());
+                                    jsonresult.put("orderinfo", orderinfo);
+                                }
+                            } else if (type.equals("2")) {
+                                //点播
+                                resultCode = "152";
                             }
-                            //level = 2
-                            else {
-                                phonenum = utils.Tools.checkMdn(ip, port);
-                                if (phonenum.startsWith("86")) {
-                                    phonenum = phonenum.substring(2);
-                                    System.out.println(phonenum);
-                                }
-                                requestInfoRecod orderRecord = new requestInfoRecod(ip, port, type, spid, productid,
-                                        "", 0,
-                                        phonenum, "", 0, System.currentTimeMillis(),action);
-                                recordHashMap.put(orderid, orderRecord);
-                                if (phonenum.equals("")) {
-                                    resultCode = "159";
-                                }
-                                else
-                                    resultCode = "0";
-                                JSONObject orderinfo = new JSONObject();
-                                orderinfo.put("phoneNum", phonenum);
-                                orderinfo.put("orderId", orderid);
-                                //orderinfo.put("productName",productInfo.getProductName());
-                                //orderinfo.put("price", productInfo.getPrice());
-                                jsonresult.put("orderinfo", orderinfo);
-                            }
-                        } else if (type.equals("2")) {
-                            //点播
-                            resultCode = "152";
+                        }
+                        else {
+                            resultCode = "153";
                         }
                     }
                     else {
-                        resultCode = "153";
+                        if (flag == 0) {
+                            resultCode = "151";
+                        }
+                        else
+                            resultCode = "160";
                     }
+
                 }
                 else {
                     resultCode = "150";
