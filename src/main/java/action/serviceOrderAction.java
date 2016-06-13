@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
 import entity.CpInfo;
@@ -120,7 +118,7 @@ public class serviceOrderAction {
                                     }
                                     //level = 2
                                     else {
-                                        if (ip == null || port == null) {
+                                        if (ip == null || port == null || ip.equals("") || port.equals("")) {
                                             ip = request.getRemoteHost();
                                             port = String.valueOf(request.getRemotePort());
                                         }
