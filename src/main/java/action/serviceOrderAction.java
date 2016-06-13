@@ -158,22 +158,39 @@ public class serviceOrderAction {
                 }
             }
             else {
-                if (phonenum != null && orderid != null) {
+                if (phonenum != null) {
                     requestInfoRecod orderRecord = recordHashMap.get(orderid);
                     if (System.currentTimeMillis() - orderRecord.getRequestcreatetime() > 300000) {
                         resultCode = "157";
                     }
-                    else if (phonenum.equals(orderRecord.getPhonenum())) {
-                        //order
-                        resultCode = Tools.subscribe(phonenum, orderRecord.getProductid());
-                        if (resultCode.equals("0")) {
-                            OrderRecord order = new OrderRecord(0, phonenum, orderRecord.getSpid(),
-                                    orderRecord.getProductid(),remoteip, Integer.parseInt(orderRecord.getType()),
-                                    new java.sql.Date(new java.util.Date().getTime()));
-                            orderRecordService.addOrderRecord(order);
+                    else if (vercode == null) {
+                        if (phonenum.equals(orderRecord.getPhonenum())) {
+                            //order
+                            resultCode = Tools.subscribe(phonenum, orderRecord.getProductid());
+                            if (resultCode.equals("0")) {
+                                OrderRecord order = new OrderRecord(0, phonenum, orderRecord.getSpid(),
+                                        orderRecord.getProductid(),remoteip, Integer.parseInt(orderRecord.getType()),
+                                        new java.sql.Date(new java.util.Date().getTime()));
+                                orderRecordService.addOrderRecord(order);
+                            }
+                        }
+                        else {
+                            String verCode = utils.Tools.genVerCode();
+                            String msg = String.format("%s为本次支付验证码。您正在订购%s，价格是%s元/月，验证码2分钟内有效，感谢使用!",
+                                    verCode, orderRecord.getProductname(), orderRecord.getPrice()/1000);
+                            SMGPSMProxyMethod proxyMethod = new SMGPSMProxyMethod();
+                            if (proxyMethod.sendMsg(phonenum, msg)) {
+                                resultCode = "0";
+                            } else {
+                                resultCode = "158";
+                            }
+                            orderRecord.setVercode(verCode);
+                            orderRecord.setPhonenum(phonenum);
+                            orderRecord.setVercodecreatetime(System.currentTimeMillis());
+                            recordHashMap.put(orderid, orderRecord);
                         }
                     }
-                    else if (vercode != null){
+                    else {
                         if (System.currentTimeMillis() - orderRecord.getVercodecreatetime() > 120000) {
                             resultCode = "154";
                         }
@@ -192,20 +209,6 @@ public class serviceOrderAction {
                                 resultCode = "155";
                             }
                         }
-                    }
-                    else {
-                        String verCode = utils.Tools.genVerCode();
-                        SMGPSMProxyMethod proxyMethod = new SMGPSMProxyMethod();
-                        if (proxyMethod.sendMsg(phonenum,verCode)) {
-                            resultCode = "0";
-                        }
-                        else {
-                            resultCode = "158";
-                        }
-                        orderRecord.setVercode(verCode);
-                        orderRecord.setPhonenum(phonenum);
-                        orderRecord.setVercodecreatetime(System.currentTimeMillis());
-                        recordHashMap.put(orderid, orderRecord);
                     }
                 }
                 else {

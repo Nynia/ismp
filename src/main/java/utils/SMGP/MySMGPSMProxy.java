@@ -7,17 +7,16 @@ import com.huawei.smproxy.comm.smgp.message.SMGPMessage;
 import com.huawei.smproxy.util.Args;
 
 /**
- * 接收下发消息的Demo类。
- * 可以直接使用SMGPSMProxy类提供的Send、close和getConnState方法,
- * CP有接收ISMG下发的短信的要求或ISMG断开连接的时候要求
- * 得到事件通知的时候，声明一个新的类继承SMGPSMProxy，重载实现
- * onDeliver( )和onTerminate( )。
+ * 锟斤拷锟斤拷锟铰凤拷锟斤拷息锟斤拷Demo锟洁。
+ * 锟斤拷锟斤拷直锟斤拷使锟斤拷SMGPSMProxy锟斤拷锟结供锟斤拷Send锟斤拷close锟斤拷getConnState锟斤拷锟斤拷,
+ * CP锟叫斤拷锟斤拷ISMG锟铰凤拷锟侥讹拷锟脚碉拷要锟斤拷锟絀SMG锟较匡拷锟斤拷锟接碉拷时锟斤拷要锟斤拷
+ * 锟矫碉拷锟铰硷拷通知锟斤拷时锟斤拷锟斤拷锟斤拷一锟斤拷锟铰碉拷锟斤拷坛锟絊MGPSMProxy锟斤拷锟斤拷锟斤拷实锟斤拷
+ * onDeliver( )锟斤拷onTerminate( )锟斤拷
  */
 
 public class MySMGPSMProxy extends SMGPSMProxy {
 
     public MySMGPSMProxy(Args args) {
-        //调用父类的构造函数，完成初始化和登录ISMG的功能，不能省略
         super(args);
         System.out.println("init");
     }
@@ -25,15 +24,14 @@ public class MySMGPSMProxy extends SMGPSMProxy {
     public SMGPMessage onDeliver(final SMGPDeliverMessage msg) {
         byte[] msgId = msg.getMsgId();
 
-        //添加收到短消息中心下发消息的处理代码
         int result = 0;
 
-        //实际上是返回响应消息，一定要有
+        //实锟斤拷锟斤拷锟角凤拷锟斤拷锟斤拷应锟斤拷息锟斤拷一锟斤拷要锟斤拷
         return new SMGPDeliverRespMessage(msgId, result);
     }
 
     /**
-     * 当与InfoX的连接被中断时的处理
+     * 锟斤拷锟斤拷InfoX锟斤拷锟斤拷锟接憋拷锟叫讹拷时锟侥达拷锟斤拷
      */
     public void OnTerminate() {
         System.out.println("Connection have been breaked! ");
