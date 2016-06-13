@@ -72,4 +72,26 @@ public class Tools {
         }
         return "";
     }
+    public static String subscribe(String phoneNum, String productId) {
+        String url = "http://58.223.0.73:9250/spso/ServiceOrder";
+        String params = String.format("act=subscribe&mobile=%s&productid=%s", phoneNum,productId);
+        String result = HttpRequest.sendPost(url, params);
+        if (result != null) {
+            JSONObject jsoj = JSONObject.parseObject(result);
+            return jsoj.get("error_code").toString();
+        }
+        else
+            return null;
+    }
+    public static String unsubscribe(String phoneNum, String productId) {
+        String url = "http://58.223.0.73:9250/spso/ServiceOrder";
+        String params = String.format("act=unsubscribe&mobile=%s&productid=%s", phoneNum,productId);
+        String result = HttpRequest.sendPost(url, params);
+        if (result != null) {
+            JSONObject jsoj = JSONObject.parseObject(result);
+            return jsoj.get("error_code").toString();
+        }
+        else
+            return null;
+    }
 }

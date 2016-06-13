@@ -26,7 +26,7 @@ public class Constants {
         resultCodeMap.put("136", "黑名单用户");
         resultCodeMap.put("150", "参数非法");
         resultCodeMap.put("151", "IP非法");
-        resultCodeMap.put("152", "暂未开通该功能");
+        resultCodeMap.put("152", "产品不存在");
         resultCodeMap.put("153", "token错误");
         resultCodeMap.put("154", "验证码超时");
         resultCodeMap.put("155", "验证码错误");
@@ -34,7 +34,8 @@ public class Constants {
         resultCodeMap.put("157", "请求超时");
         resultCodeMap.put("158", "验证码发送失败");
         resultCodeMap.put("159", "获取号码失败");
-        resultCodeMap.put("160", "产品ID未登记");
+        resultCodeMap.put("160", "暂未开通功能");
+        resultCodeMap.put("161", "CP不存在");
         resultCodeMap.put("999", "其他");
     }
 }
