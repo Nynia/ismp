@@ -8,25 +8,24 @@ import java.lang.reflect.*;
 
 import com.huawei.smproxy.util.*;
 /**
- * лА╧╘о╣мЁткпп╩╥╬Ёпео╒║ё
+ * О©╫А╧╘о╣мЁО©╫О©╫О©╫п╩О©╫О©╫О©╫О©╫О©╫о╒О©╫О©╫
  */
 public class Env {
 
-  /** еДжц╤ап╢юЮ║ё*/
+  /** О©╫О©╫О©╫ц╤О©╫п╢О©╫Ю║ё*/
   static Cfg config;
 
- /**оШо╒еДжцюЮ*/
+ /**О©╫О©╫о╒О©╫О©╫О©╫О©╫О©╫О©╫*/
   static Cfg msgConfig;
 
-  /** вйт╢нд╪Ч╤ап╢юЮ║ё*/
+  /** О©╫О©╫т╢О©╫д╪О©╫О©╫О©╫п╢О©╫Ю║ё*/
   static Resource resource;
 
   /**
-   * х║╣цеДжц╤ап╢юЮ║ё
+   * х║О©╫О©╫О©╫О©╫О©╫ц╤О©╫п╢О©╫Ю║ё
    */
   public static Cfg getConfig() {
 
-    //хГ╧Шн╢ЁУй╪╩╞ё╛тРк╣цВо╣мЁуЩ╢╕тз╟╡в╟╧ЩЁлжпё╛тРеДжц╣д╤ах║
     if (config == null) {
       try {
         config = new Cfg("config.xml");
@@ -39,11 +38,11 @@ public class Env {
   }
 
   /**
-   * х║╣цоШо╒еДжцюЮ║ё
+   * х║О©╫О©╫О©╫О©╫о╒О©╫О©╫О©╫О©╫О©╫Ю║ё
    */
   public static Cfg getMsgConfig() {
 
-    //хГ╧Шн╢ЁУй╪╩╞ё╛тРк╣цВо╣мЁуЩ╢╕тз╟╡в╟╧ЩЁлжпё╛тРеДжц╣д╤ах║
+    //О©╫О©╫О©╫н╢О©╫О©╫й╪О©╫О©╫О©╫О©╫О©╫О©╫к╣О©╫О©╫о╣мЁО©╫О©╫О©╫О©╫О©╫з╟О©╫в╟О©╫О©╫О©╫О©╫О©╫пёО©╫О©╫О©╫О©╫О©╫О©╫ц╣д╤О©╫х║
     if (msgConfig == null) {
       try {
         msgConfig = new Cfg("message.xml");
@@ -56,7 +55,7 @@ public class Env {
   }
 
   /**
-   * х║╣цвйт╢╤ах║юЮ║ё
+   * х║О©╫О©╫О©╫О©╫т╢О©╫О©╫х║О©╫Ю║ё
    */
   public static Resource getResource() {
     if (resource == null) {

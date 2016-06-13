@@ -20,8 +20,8 @@ public class SMGPSMProxyMethod {
     static {
         try {
             String configPath = SMGPSMProxyMethod.class.getResource("/config.xml").getPath();
-            //System.out.println(configPath.substring(1));
-            Args cfgArgs = new Cfg(configPath.substring(1)).getArgs("SMGPConnect");
+            System.out.println(configPath);
+            Args cfgArgs = new Cfg(configPath).getArgs("SMGPConnect");
             // cfgArgs.set("clientid","sp");
             // cfgArgs.set("shared-secret","new");
             mySMProxy = new MySMGPSMProxy(cfgArgs);
