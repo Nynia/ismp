@@ -129,7 +129,7 @@ public class serviceOrderAction {
                                         }
                                         requestInfoRecod orderRecord = new requestInfoRecod(ip, port, type, spid, productid,
                                                 productInfo.getProductName(), Integer.parseInt(productInfo.getPrice()),
-                                                phonenum, "", 0, System.currentTimeMillis(), action);
+                                                phonenum, "", 0, System.currentTimeMillis(), action, cpuser.getName());
                                         recordHashMap.put(orderid, orderRecord);
                                         if (phonenum.equals("")) {
                                             resultCode = "159";
@@ -164,7 +164,7 @@ public class serviceOrderAction {
                         resultCode = "157";
                     }
                     else if (vercode == null) {
-                        if (phonenum.equals(orderRecord.getPhonenum())) {
+                        if (phonenum.equals(orderRecord.getPhonenum()) && orderRecord.getReqSeq() == 0) {
                             //order
                             resultCode = Tools.subscribe(phonenum, orderRecord.getProductid());
                             if (resultCode.equals("0")) {
@@ -187,6 +187,7 @@ public class serviceOrderAction {
                             orderRecord.setVercode(verCode);
                             orderRecord.setPhonenum(phonenum);
                             orderRecord.setVercodecreatetime(System.currentTimeMillis());
+                            orderRecord.addReqSeq();
                             recordHashMap.put(orderid, orderRecord);
                         }
                     }

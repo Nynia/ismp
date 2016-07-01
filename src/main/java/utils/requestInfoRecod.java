@@ -16,10 +16,12 @@ public class requestInfoRecod {
     private String action;
     private String productname;
     private int price;
+    private String providerName;
+    private int reqSeq;
 
     public requestInfoRecod(String ip, String port, String type, String id,
                             String productid, String productname, int price, String phonenum, String vercode,
-                            long vercodecreatetime, long requestcreatetime,String action) {
+                            long vercodecreatetime, long requestcreatetime,String action, String providerName) {
         this.ip = ip;
         this.port = port;
         this.type = type;
@@ -32,8 +34,25 @@ public class requestInfoRecod {
         this.vercodecreatetime = vercodecreatetime;
         this.requestcreatetime = requestcreatetime;
         this.action = action;
+        this.providerName = providerName;
+        this.reqSeq = 0;
     }
 
+    public int getReqSeq() {
+        return reqSeq;
+    }
+    public void setReqSeq(int reqSeq) {
+        this.reqSeq = reqSeq;
+    }
+    public void addReqSeq() {
+        this.reqSeq ++;
+    }
+    public String getProviderName() {
+        return providerName;
+    }
+    public void setProviderName(String providerName) {
+        this.providerName = providerName;
+    }
     public int getPrice() {
         return price;
     }
