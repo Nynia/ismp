@@ -22,10 +22,7 @@ public class test {
 	@Resource
 	private static productService productService;
 	public static void main(String[] args)  {
-		String spid = "11104927";
-		String stamp = "20160613110248";
-		String secret = "a9a883cfe29e237d927c";
-		System.out.println(utils.Encrypt.SHA1(spid+stamp+secret));
+		System.out.println(utils.Tools.genVerCode());
 	}
 
 }

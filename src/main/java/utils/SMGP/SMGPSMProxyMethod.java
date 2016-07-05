@@ -22,8 +22,8 @@ public class SMGPSMProxyMethod {
             String configPath = SMGPSMProxyMethod.class.getResource("/config.xml").getPath();
             System.out.println(configPath);
             Args cfgArgs = new Cfg(configPath.substring(1)).getArgs("SMGPConnect");
-            // cfgArgs.set("clientid","sp");
-            // cfgArgs.set("shared-secret","new");
+            //Linux下改成如下
+            //Args cfgArgs = new Cfg(configPath).getArgs("SMGPConnect");
             mySMProxy = new MySMGPSMProxy(cfgArgs);
             test = 1;
         } catch (Exception e) {

@@ -140,6 +140,7 @@ public class serviceOrderAction {
                                         orderinfo.put("orderId", orderid);
                                         orderinfo.put("productName", productInfo.getProductName());
                                         orderinfo.put("price", productInfo.getPrice());
+                                        orderinfo.put("providerName", cpuser.getName());
                                         jsonresult.put("orderinfo", orderinfo);
                                     }
                                 } else if (type.equals("2")) {
