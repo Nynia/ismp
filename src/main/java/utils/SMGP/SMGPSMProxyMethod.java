@@ -21,9 +21,9 @@ public class SMGPSMProxyMethod {
         try {
             String configPath = SMGPSMProxyMethod.class.getResource("/config.xml").getPath();
             System.out.println(configPath);
-            Args cfgArgs = new Cfg(configPath.substring(1)).getArgs("SMGPConnect");
+            //Args cfgArgs = new Cfg(configPath.substring(1)).getArgs("SMGPConnect");
             //Linux下改成如下
-            //Args cfgArgs = new Cfg(configPath).getArgs("SMGPConnect");
+            Args cfgArgs = new Cfg(configPath).getArgs("SMGPConnect");
             mySMProxy = new MySMGPSMProxy(cfgArgs);
             test = 1;
         } catch (Exception e) {
