@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.lang.Math;
@@ -30,9 +31,9 @@ public class Tools {
         return utils.Encrypt.MD5(atTime+id).substring(12);
     }
 
-    public static String genOrderId(String str) {
+    public static String genOrderId() {
         int s = (int) (Math.random() * (999999 - 100000 + 1)) + 1000000;
-        return str + String.valueOf(s);
+        return getTimestamp() + String.valueOf(s);
     }
     public static String getTimestamp() {
         SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
@@ -72,26 +73,68 @@ public class Tools {
         }
         return "";
     }
-    public static String subscribe(String phoneNum, String productId) {
-        String url = "http://58.223.0.73:9250/spso/ServiceOrder";
-        String params = String.format("act=subscribe&mobile=%s&productid=%s", phoneNum,productId);
-        String result = HttpRequest.sendPost(url, params);
+    public static String checkMdnByIMSI(String imsi, String ip) throws UnsupportedEncodingException {
+        String areaId = getAreaIdByIp(ip);
+        if (areaId == null)
+            return "";
+        String url = "http://132.224.218.132:9250/dcninterface/imsiQuery";
+        //String url = "http://192.168.127.53:9250/dcninterface/imsiQuery";
+        String params = String.format("imsi=%s&areaid=%s", imsi, areaId);
+        String result = HttpRequest.sendGet(url, params);
         if (result != null) {
             JSONObject jsoj = JSONObject.parseObject(result);
-            return jsoj.get("error_code").toString();
+            if (jsoj.getString("code").equals("0")) {
+                jsoj = jsoj.getJSONObject("result");
+                return jsoj.getString("phone_num");
+            }
+            else return "";
+        }
+        else
+            return "";
+    }
+    public static String subscribe(String phoneNum, String productId) {
+        String url = "http://132.224.218.132:9250/dcninterface/serviceOrder";
+        //String url = "http://192.168.127.53:9250/dcninterface/serviceOrder";
+        String params = String.format("action=subscribe&phoneNum=%s&productId=%s", phoneNum,productId);
+        String result = HttpRequest.sendGet(url, params);
+        if (result != null) {
+            JSONObject jsoj = JSONObject.parseObject(result);
+            return jsoj.get("err_code").toString();
         }
         else
             return null;
     }
     public static String unsubscribe(String phoneNum, String productId) {
-        String url = "http://58.223.0.73:9250/spso/ServiceOrder";
-        String params = String.format("act=unsubscribe&mobile=%s&productid=%s", phoneNum,productId);
-        String result = HttpRequest.sendPost(url, params);
+        String url = "http://132.224.218.132:9250/dcninterface/serviceOrder";
+        //String url = "http://192.168.127.53:9250/dcninterface/serviceOrder";
+        String params = String.format("action=unsubscribe&phoneNum=%s&productId=%s", phoneNum,productId);
+        String result = HttpRequest.sendGet(url, params);
         if (result != null) {
             JSONObject jsoj = JSONObject.parseObject(result);
-            return jsoj.get("error_code").toString();
+            return jsoj.get("err_code").toString();
         }
         else
             return null;
+    }
+    public static String getAreaIdByIp(String ip) throws UnsupportedEncodingException {
+        String url = "http://apis.juhe.cn/ip/ip2addr";
+        String appKey = "eb82c3d5e4e03425cfaff5eedbd0d51b";
+        String params = String.format("ip=%s&key=%s",ip,appKey);
+        //String contentType = "application/x-www-form-urlencoded;charset=\"utf-8\"";
+        String result = HttpRequest.sendGet(url, params);
+        result = new String(result.getBytes(),"UTF-8");
+        if (result != null) {
+            JSONObject jsoj = JSONObject.parseObject(result);
+            String resultCode = jsoj.get("resultcode").toString();
+            System.out.println("ip查询结果:" + resultCode);
+            if (resultCode.equals("200")) {
+                JSONObject tj = jsoj.getJSONObject("result");
+                String area = tj.getString("area");
+                if (Constants.areaIdMap.containsKey(area)) {
+                    return Constants.areaIdMap.get(area);
+                }
+            }
+        }
+        return null;
     }
 }

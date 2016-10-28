@@ -9,7 +9,7 @@ import com.huawei.smproxy.comm.smgp.message.*;
 import com.huawei.smproxy.util.*;
 
 public class SMReceiver extends SMGPSMProxy
-    implements Runnable{
+        implements Runnable{
   //系统配置信息
   private static Args arg = Env.getConfig().getArgs("SMGPConnect");
 

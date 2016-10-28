@@ -1,6 +1,8 @@
 package service.impl;
 
+import dao.ChargePointMapper;
 import dao.ProductInfoMapper;
+import entity.ChargePoint;
 import entity.ProductInfo;
 import service.productService;
 
@@ -12,13 +14,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class productServiceImpl implements productService {
     @Resource
-    private ProductInfoMapper mapper;
+    private ProductInfoMapper productInfoMapper;
 
     public int addProduct(ProductInfo productInfo) {
-        return mapper.insert(productInfo);
+        return productInfoMapper.insert(productInfo);
     }
 
     public ProductInfo getProductByProductId(String id) {
-        return mapper.selectByProductId(id);
+        return productInfoMapper.selectByProductId(id);
     }
 }

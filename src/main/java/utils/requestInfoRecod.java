@@ -5,10 +5,9 @@ package utils;
  */
 public class requestInfoRecod {
     private String ip;
-    private String port;
     private String type;
     private String spid;
-    private String productid;
+    private String chargeid;
     private String phonenum;
     private String vercode;
     private long vercodecreatetime;
@@ -19,14 +18,13 @@ public class requestInfoRecod {
     private String providerName;
     private int reqSeq;
 
-    public requestInfoRecod(String ip, String port, String type, String id,
-                            String productid, String productname, int price, String phonenum, String vercode,
+    public requestInfoRecod(String ip, String type, String spid,
+                            String chargeid, String productname, int price, String phonenum, String vercode,
                             long vercodecreatetime, long requestcreatetime,String action, String providerName) {
         this.ip = ip;
-        this.port = port;
         this.type = type;
-        this.spid = id;
-        this.productid = productid;
+        this.spid = spid;
+        this.chargeid = chargeid;
         this.productname = productname;
         this.price = price;
         this.phonenum = phonenum;
@@ -131,14 +129,6 @@ public class requestInfoRecod {
         this.ip = ip;
     }
 
-    public String getPort() {
-        return port;
-    }
-
-    public void setPort(String port) {
-        this.port = port;
-    }
-
     public String getType() {
         return type;
     }
@@ -147,12 +137,12 @@ public class requestInfoRecod {
         this.type = type;
     }
 
-    public String getProductid() {
-        return productid;
+    public String getChargeid() {
+        return chargeid;
     }
 
-    public void setProductid(String productid) {
-        this.productid = productid;
+    public void setChargeid(String chargeid) {
+        this.chargeid = chargeid;
     }
 
     public String getAction() {

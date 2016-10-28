@@ -38,7 +38,6 @@
           <element id="library" level="project" name="Maven: commons-collections:commons-collections:3.2.1" />
           <element id="library" level="project" name="Maven: commons-lang:commons-lang:2.5" />
           <element id="library" level="project" name="Maven: net.sf.ezmorph:ezmorph:1.0.6" />
-          <element id="library" level="project" name="axis" />
           <element id="library" level="project" name="jaxrpc" />
           <element id="library" level="project" name="commons-discovery-0.2" />
           <element id="library" level="project" name="saaj" />

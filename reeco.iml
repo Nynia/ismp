@@ -34,7 +34,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="axis" level="project" />
     <orderEntry type="library" name="jaxrpc" level="project" />
     <orderEntry type="library" name="commons-discovery-0.2" level="project" />
     <orderEntry type="library" name="saaj" level="project" />

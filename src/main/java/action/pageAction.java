@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 public class pageAction {
     @RequestMapping("payAction")
     public ModelAndView pageAction(HttpServletRequest request) {
+
         ModelAndView view = new ModelAndView();
         int index = Integer.parseInt(request.getParameter("index"));
         String title = null;

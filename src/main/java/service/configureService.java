@@ -9,8 +9,9 @@ import java.util.List;
  */
 public interface configureService {
     int addCpUser(CpInfo cpinfo);
-    //int deleteCpUserById(int id);
+    int updateCpUser(CpInfo cpinfo);
+    int deleteCpUserById(int id);
     int updatePrivilegebyId(int id, Byte level);
-    List<CpInfo> getAllCpUser();
     CpInfo getUserbyId(int id);
+    List<CpInfo> getAllCpInfos();
 }

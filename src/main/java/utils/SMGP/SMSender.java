@@ -9,12 +9,12 @@ import com.huawei.smproxy.comm.smgp.message.*;
 import com.huawei.smproxy.util.*;
 
 /**
- * <p>Web·¢ËÍ¶ÌÏûÏ¢¹ÜÀí²Ù×÷Àà£¬¾ßÌå¸ºÔğ½«Ò³ÃæÌá½»µÄ¶ÌÏûÏ¢·¢ËÍµ½infoX</p>
+ * <p>Webå‘é€çŸ­æ¶ˆæ¯ç®¡ç†æ“ä½œç±»ï¼Œå…·ä½“è´Ÿè´£å°†é¡µé¢æäº¤çš„çŸ­æ¶ˆæ¯å‘é€åˆ°infoX</p>
  */
 
 public class SMSender extends SMGPSMProxy
 {
-    //ÏµÍ³ÅäÖÃĞÅÏ¢
+    //ç³»ç»Ÿé…ç½®ä¿¡æ¯
     private static Args arg = Env.getConfig().getArgs("SMGPConnect");
 
     private static SMSender instance;
@@ -34,49 +34,49 @@ public class SMSender extends SMGPSMProxy
     }
 
     /**
-     * µ±ÓëInfoXµÄÁ¬½Ó±»ÖĞ¶ÏÊ±µÄ´¦Àí
+     * å½“ä¸InfoXçš„è¿æ¥è¢«ä¸­æ–­æ—¶çš„å¤„ç†
      */
     public void OnTerminate()
     {
         System.out.println("Connection have been breaked! ");
     }
     /**
-     * ¶ÔSMGWÖ÷¶¯ÏÂ·¢µÄÏûÏ¢µÄ´¦Àí¡£´ËÀıÖĞÖ»·µ»ØÒ»¸ö³É¹¦µÄÏìÓ¦¡£
-     * @param msg ÊÕµ½µÄÏûÏ¢¡£
-     * @return ·µ»ØµÄÏàÓ¦ÏûÏ¢¡£
+     * å¯¹SMGWä¸»åŠ¨ä¸‹å‘çš„æ¶ˆæ¯çš„å¤„ç†ã€‚æ­¤ä¾‹ä¸­åªè¿”å›ä¸€ä¸ªæˆåŠŸçš„å“åº”ã€‚
+     * @param msg æ”¶åˆ°çš„æ¶ˆæ¯ã€‚
+     * @return è¿”å›çš„ç›¸åº”æ¶ˆæ¯ã€‚
      */
     public SMGPMessage onDeliver(final SMGPDeliverMessage msg)
     {
-		if (msg.getIsReport() == 1)
-		{
-			System.out.println("Get a report message. " + msg.toString());
-			return new SMGPDeliverRespMessage(msg.getMsgId(), 0);
-		}
-		else
-		{
-			System.out.println("Get a deliver message. "+msg.toString());
-			return new SMGPDeliverRespMessage(msg.getMsgId(), 0);
-		}
+        if (msg.getIsReport() == 1)
+        {
+            System.out.println("Get a report message. " + msg.toString());
+            return new SMGPDeliverRespMessage(msg.getMsgId(), 0);
+        }
+        else
+        {
+            System.out.println("Get a deliver message. "+msg.toString());
+            return new SMGPDeliverRespMessage(msg.getMsgId(), 0);
+        }
     }
 
     /**
-     * ·¢ËÍÒ»ÌõÏûÏ¢£¬Íê³ÉÕæÕıµÄÏûÏ¢·¢ËÍ¡£
-     * @param msg ´ı·¢ËÍµÄÏûÏ¢¡£
-     * @return true£º·¢ËÍ³É¹¦¡£false£º·¢ËÍÊ§°Ü¡£
+     * å‘é€ä¸€æ¡æ¶ˆæ¯ï¼Œå®ŒæˆçœŸæ­£çš„æ¶ˆæ¯å‘é€ã€‚
+     * @param msg å¾…å‘é€çš„æ¶ˆæ¯ã€‚
+     * @return trueï¼šå‘é€æˆåŠŸã€‚falseï¼šå‘é€å¤±è´¥ã€‚
      */
     public boolean send(SMGPSubmitMessage msg) {
-      if ( msg == null ) {
-        return false;
-      }
-      SMGPSubmitRespMessage reportMsg = null;
-      PreparedStatement stat = null;
-      try {
-          reportMsg = (SMGPSubmitRespMessage)super.send(msg);
-      }
-      catch (IOException ex) {
-        ex.printStackTrace();
-        return false;
-      }
-      return true;
+        if ( msg == null ) {
+            return false;
+        }
+        SMGPSubmitRespMessage reportMsg = null;
+        PreparedStatement stat = null;
+        try {
+            reportMsg = (SMGPSubmitRespMessage)super.send(msg);
+        }
+        catch (IOException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+        return true;
     }
 }

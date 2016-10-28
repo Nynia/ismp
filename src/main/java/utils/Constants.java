@@ -9,8 +9,23 @@ import java.util.Map;
 public class Constants {
     public final static String DeviceID = "021155";
     public final static Map<String, String> resultCodeMap = new HashMap<String, String>();
+    public final static Map<String, String> areaIdMap = new HashMap<String, String>();
     static {
-        resultCodeMap.put("0", "成功");
+        areaIdMap.put("江苏省南京市", "3");
+        areaIdMap.put("江苏省镇江市", "4");
+        areaIdMap.put("江苏省无锡市", "15");
+        areaIdMap.put("江苏省苏州市", "20");
+        areaIdMap.put("江苏省南通市", "26");
+        areaIdMap.put("江苏省扬州市", "33");
+        areaIdMap.put("江苏省盐城市", "39");
+        areaIdMap.put("江苏省徐州市", "48");
+        areaIdMap.put("江苏省淮安市", "60");
+        areaIdMap.put("江苏省连云港市", "63");
+        areaIdMap.put("江苏省常州市", "69");
+        areaIdMap.put("江苏省泰州市", "79");
+        areaIdMap.put("江苏省宿迁市", "84");
+
+        resultCodeMap.put("0", "success");
         resultCodeMap.put("103", "用户号码非法");
         resultCodeMap.put("108", "用户信息不存在");
         resultCodeMap.put("115", "用户已注销");
@@ -36,6 +51,7 @@ public class Constants {
         resultCodeMap.put("159", "获取号码失败");
         resultCodeMap.put("160", "暂未开通功能");
         resultCodeMap.put("161", "CP不存在");
+        resultCodeMap.put("162", "计费代码不存在");
         resultCodeMap.put("999", "其他");
     }
 }

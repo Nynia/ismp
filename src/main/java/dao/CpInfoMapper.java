@@ -52,5 +52,6 @@ public interface CpInfoMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(CpInfo record);
-    List<CpInfo> selectAllCpUsers();
+
+    List<CpInfo> selectAllCpInfos();
 }

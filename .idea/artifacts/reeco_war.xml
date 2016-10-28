@@ -6,7 +6,6 @@
       <element id="directory" name="WEB-INF">
         <element id="directory" name="lib">
           <element id="library" level="project" name="smproxy_smgp" />
-          <element id="library" level="project" name="axis" />
           <element id="library" level="project" name="jaxrpc" />
           <element id="library" level="project" name="saaj" />
         </element>

@@ -59,5 +59,5 @@ public interface ProductInfoMapper {
      */
     int updateByPrimaryKey(ProductInfo record);
 
-    ProductInfo selectByProductId(String id);
+    ProductInfo selectByProductId(String productId);
 }
