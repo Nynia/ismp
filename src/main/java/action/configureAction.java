@@ -95,21 +95,29 @@ public class configureAction {
         String price = request.getParameter("price");
         String description = request.getParameter("description");
 
-        //String secret = Tools.genSecret(productId);
-        ProductInfo productInfo = new ProductInfo(8,spId,productId,productName,price,description);
+        ProductInfo productInfo = new ProductInfo(0,spId,productId,productName,price,description);
         productService.addProduct(productInfo);
         return productName;
     }
-    @RequestMapping(value = "changePrivilege", method = {RequestMethod.POST})
+    @RequestMapping("updateProduct")
     @ResponseBody
-    public void changePrivilege(HttpServletRequest request) {
-        CpInfo cpInfo = configureService.getUserbyId(1912);
-        if (cpInfo.getLevel() == 1) {
-            configureService.updatePrivilegebyId(1912, (byte) 2);
-        }
-        else {
-            configureService.updatePrivilegebyId(1912, (byte) 1);
-        }
+    public String updateProduct(HttpServletRequest request) {
+        String productId = request.getParameter("productId");
+        String productName = request.getParameter("productName");
+        String price = request.getParameter("price");
+        String description = request.getParameter("description");
+
+        //String secret = Tools.genSecret(productId);
+        ProductInfo productInfo = new ProductInfo(0,"0",productId,productName,price,description);
+        productService.updateProductByProductId(productInfo);
+        return productName;
+    }
+    @RequestMapping("deleteProduct")
+    @ResponseBody
+    public String deleteProduct(HttpServletRequest request) {
+        String productId = request.getParameter("productId");
+        productService.deleteByProductId(productId);
+        return productId;
     }
     @RequestMapping(value="addChargePoint")
     @ResponseBody
@@ -122,10 +130,43 @@ public class configureAction {
         chargeService.addChargePoint(chargePoint);
         return productId;
     }
+    @RequestMapping(value="updateChargePoint")
+    @ResponseBody
+    public String updateChargePoint(HttpServletRequest request) {
+        String productId = request.getParameter("productId");
+        String description = request.getParameter("description");
+        ChargePoint chargePoint = new ChargePoint(1, productId, "", description);
+        chargeService.updateChargePoint(chargePoint);
+        return productId;
+    }
+    @RequestMapping(value="deleteChargePoint")
+    @ResponseBody
+    public String deleteChargePoint(HttpServletRequest request) {
+        String id = request.getParameter("id");
+        chargeService.deleteChargePointById(Integer.parseInt(id));
+        return id;
+    }
     @RequestMapping("/index")
     public String index(HttpServletRequest request,Model model) throws IOException {
         List<CpInfo> cpInfoList = configureService.getAllCpInfos();
         model.addAttribute("cpinfos", cpInfoList);
         return "index";
+    }
+    @RequestMapping("/cpDetail")
+    public String cpDetail(HttpServletRequest request,Model model) throws IOException {
+        String cpId = request.getParameter("cpid");
+        List<ProductInfo> productInfos = productService.getProductsByCpId(cpId);
+        model.addAttribute("productinfos", productInfos);
+        model.addAttribute("spid",cpId);
+        return "product_list";
+    }
+    @RequestMapping("/productDetail")
+    public String productDetail(HttpServletRequest request,Model model) throws IOException {
+        String productId = request.getParameter("productid");
+        List<ChargePoint> chargePoints = chargeService.getChargePointsByProductId(productId);
+        model.addAttribute("chargepoints", chargePoints);
+        model.addAttribute("productid", productId);
+        //model.addAttribute("spid",cpId);
+        return "charge_list";
     }
 }

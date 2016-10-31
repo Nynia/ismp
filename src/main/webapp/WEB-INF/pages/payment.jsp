@@ -55,42 +55,10 @@
             return vars;
         }
         $(document).ready(function () {
-            var index = getUrlVars()['index'];
-
-            switch (index) {
-                case '1':
-                    productid = '135000000000000229481';
-                    spid = '35101296';
-                    secret = '8a693ef66d19aa4d70be';
-                    break;
-                case '2':
-                    productid = '135000000000000242339';
-                    secret = '8a693ef66d19aa4d70be';
-                    spid = '35101296';
-                    break;
-                case '3':
-                    productid = '135000000000000242330';
-                    secret = '8a693ef66d19aa4d70be';
-                    spid = '35101296';
-                    break;
-                case '4':
-                    productid = '135000000000000242190';
-                    secret = 'e604953383fb0821be39';
-                    spid = '35101256';
-                    break;
-                case '5':
-                    productid = '135000000000000242191';
-                    secret = 'e604953383fb0821be39';
-                    spid = '35101256';
-                    break;
-                default:
-                    alert('error');
-            }
 
             $('#getvercode').click(function () {
                 var phonenum = $('#phonenum').val();
 
-                var timestamp = (new Date()).valueOf() + '0';
                 if (phonenum == "") {
                     alert("手机号码不能为空");
                 }
@@ -101,9 +69,9 @@
                     }
                     else {
                         $('#getvercode').hide();
-                        $('#J_second').html('120');
+                        $('#J_second').html('60');
                         $('#reset').show();
-                        var second = 120;
+                        var second = 60;
                         var timer = null;
                         timer = setInterval(function(){
                             second -= 1;
@@ -116,25 +84,16 @@
                             }
                         },1000);
                         $.ajax({
-                            url: 'webOrder',
+                            url: 'http://127.0.0.1:8080/serviceOrder',
                             type: 'post',
+                            dataType:'json',
                             data: {
-                                action : 'subscribe',
-                                spId : spid,
-                                productId : productid,
-                                orderType: '1',
-                                accessToken: hex_sha1(spid+timestamp+secret),
-                                timestamp: timestamp,
+                                action:'subscribe',
+                                orderId:'${orderId}',
                                 phoneNum: phonenum
                             },
                             success: function (msg) {
-                                var jsonstr = JSON.stringify(msg);
-                                //alert(jsonstr);
-                                var jsonobj = eval('(' + jsonstr + ')');
-                                var orderinfo = jsonobj.orderinfo;
-                                //alert(typeof orderinfo)
-                                //alert(orderinfo.orderId);
-                                $('#orderid').val(orderinfo.orderId);
+                               //alert(msg.error);
                             },
                             error: function () {
                                 alert("异常！");
@@ -145,7 +104,7 @@
             });
             $('#ok').click(function () {
                 var phonenum = $('#phonenum').val();
-                var orderid = $('#orderid').val();
+                var orderid = '${orderId}';
                 var vercode = $('#vercode').val();
                 if (phonenum == "" || vercode == "") {
                     alert("手机号码或验证码不能为空");
@@ -157,8 +116,9 @@
                     }
                     else {
                         $.ajax({
-                            url: 'webOrder',// 跳转到 action
+                            url: 'http://127.0.0.1:8080/serviceOrder',// 跳转到 action
                             type: 'post',
+                            dataType:'json',
                             data: {
                                 action: 'subscribe',
                                 orderId: orderid,
@@ -166,24 +126,27 @@
                                 verCode: vercode
                             },
                             success: function (msg) {
-                                var jsonstr = JSON.stringify(msg);
-                                var jsonobj = eval('(' + jsonstr + ')');
-                                var err_code = jsonobj.err_code;
+                                var err_code = msg.err_code;
                                 switch (err_code) {
                                     case '0':
                                         alert("订购成功");
+                                        window.history.back(-1);
                                         break;
                                     case '131':
                                         alert("订购关系已存在，请勿重复订购");
+                                        window.history.back(-1);
                                         break;
                                     case '126':
                                         alert('用户余额不足，未能成功订购');
+                                        window.history.back(-1);
                                         break;
                                     case '155':
                                         alert('验证码错误，未能成功订购');
+                                        window.history.back(-1);
                                         break;
                                     default:
                                         alert('未知错误，未能成功订购');
+                                        window.history.back(-1);
                                 }
                             },
                             error: function () {
@@ -199,7 +162,7 @@
 </head>
 <body>
 <div class="container">
-    <h4 class="modal-title" id="title">${title}</h4>
+    <h4 class="modal-title" id="title">${title}订购页面</h4>
         <div class="modal-body">
             <p>${desc}</p>
         </div>

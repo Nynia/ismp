@@ -1,6 +1,7 @@
 package service;
 
 import entity.CpInfo;
+import entity.ProductInfo;
 
 import java.util.List;
 
@@ -11,7 +12,6 @@ public interface configureService {
     int addCpUser(CpInfo cpinfo);
     int updateCpUser(CpInfo cpinfo);
     int deleteCpUserById(int id);
-    int updatePrivilegebyId(int id, Byte level);
     CpInfo getUserbyId(int id);
     List<CpInfo> getAllCpInfos();
 }

@@ -1,6 +1,8 @@
 package service.impl;
 import dao.CpInfoMapper;
+import dao.ProductInfoMapper;
 import entity.CpInfo;
+import entity.ProductInfo;
 import org.springframework.stereotype.Service;
 import service.configureService;
 
@@ -32,16 +34,12 @@ public class configureServiceImpl implements configureService {
 //        return mapper.deleteByPrimaryKey(id);
 //    }
 //
-    public int updatePrivilegebyId(int id, Byte level) {
-        CpInfo cp = mapper.selectByPrimaryKey(id);
-        //cp.setLevel(level);
-        return mapper.updateByPrimaryKey(cp);
-    }
-//
 //
     public CpInfo getUserbyId(int id) {
         return mapper.selectByPrimaryKey(id);
     }
+
+
 
     public List<CpInfo> getAllCpInfos() {
         return mapper.selectAllCpInfos();

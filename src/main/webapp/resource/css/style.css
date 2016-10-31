@@ -52,3 +52,14 @@
 .btn-block+.btn-block {
     margin-top:0
 }
+.btn-bg {
+    background-color: lightgray;
+}
+
+.fixed-width {
+    width:400px
+}
+td .btn {
+    padding:3px 12px;
+    margin: 0 6px;
+}
