@@ -77,8 +77,8 @@ public class Tools {
         String areaId = getAreaIdByIp(ip);
         if (areaId == null)
             return "";
-        String url = "http://132.224.218.132:9250/dcninterface/imsiQuery";
-        //String url = "http://192.168.127.53:9250/dcninterface/imsiQuery";
+        //String url = "http://132.224.218.132:9250/dcninterface/imsiQuery";
+        String url = "http://192.168.127.53:9250/dcninterface/imsiQuery";
         String params = String.format("imsi=%s&areaid=%s", imsi, areaId);
         String result = HttpRequest.sendGet(url, params);
         if (result != null) {
@@ -93,8 +93,8 @@ public class Tools {
             return "";
     }
     public static String subscribe(String phoneNum, String productId) {
-        String url = "http://132.224.218.132:9250/dcninterface/serviceOrder";
-        //String url = "http://192.168.127.53:9250/dcninterface/serviceOrder";
+        //String url = "http://132.224.218.132:9250/dcninterface/serviceOrder";
+        String url = "http://192.168.127.53:9250/dcninterface/serviceOrder";
         String params = String.format("action=subscribe&phoneNum=%s&productId=%s", phoneNum,productId);
         String result = HttpRequest.sendGet(url, params);
         if (result != null) {
@@ -105,8 +105,8 @@ public class Tools {
             return null;
     }
     public static String unsubscribe(String phoneNum, String productId) {
-        String url = "http://132.224.218.132:9250/dcninterface/serviceOrder";
-        //String url = "http://192.168.127.53:9250/dcninterface/serviceOrder";
+        //String url = "http://132.224.218.132:9250/dcninterface/serviceOrder";
+        String url = "http://192.168.127.53:9250/dcninterface/serviceOrder";
         String params = String.format("action=unsubscribe&phoneNum=%s&productId=%s", phoneNum,productId);
         String result = HttpRequest.sendGet(url, params);
         if (result != null) {

@@ -113,7 +113,7 @@ public class serviceOrderAction {
                             flag = 1;
                         }
                         if (flag == 1) {
-                            String value = utils.Encrypt.SHA1(spid + timestamp + chargePoint.getSecret());
+                            String value = utils.Encrypt.SHA1(chargeid + timestamp + chargePoint.getSecret());
                             //token
                             if (value.equals(token)) {
                                 if (type.equals("1")) {
@@ -185,7 +185,7 @@ public class serviceOrderAction {
                             if (resultCode.equals("0")) {
                                 //recordHashMap.remove(orderid);
                                 OrderRecord order = new OrderRecord(0, phonenum, orderRecord.getSpid(),
-                                        chargeid,remoteip, Integer.parseInt(orderRecord.getType()),
+                                        orderRecord.getChargeid(),remoteip, Integer.parseInt(orderRecord.getType()),
                                         new java.sql.Date(new java.util.Date().getTime()));
                                 orderRecordService.addOrderRecord(order);
                             }
@@ -218,7 +218,7 @@ public class serviceOrderAction {
                                 if (resultCode.equals("0")) {
                                     //recordHashMap.remove(orderid);
                                     OrderRecord order = new OrderRecord(0, phonenum, orderRecord.getSpid(),
-                                            chargeid,remoteip, Integer.parseInt(orderRecord.getType()),
+                                            orderRecord.getChargeid(),remoteip, Integer.parseInt(orderRecord.getType()),
                                             new java.sql.Date(new java.util.Date().getTime()));
                                     orderRecordService.addOrderRecord(order);
                                 }
@@ -245,7 +245,7 @@ public class serviceOrderAction {
             if (phonenum != null && chargeid != null && spid != null && timestamp != null && token!= null) {
                 cpuser = configureService.getUserbyId(Integer.parseInt(spid));
                 chargePoint = chargeService.getChargePointById(Integer.parseInt(chargeid));
-                String value = utils.Encrypt.SHA1(spid+timestamp+chargePoint.getSecret());
+                String value = utils.Encrypt.SHA1(chargeid+timestamp+chargePoint.getSecret());
                 //token
                 if (value.equals(token)) {
                     resultCode = Tools.unsubscribe(phonenum, chargePoint.getPid());
@@ -266,10 +266,10 @@ public class serviceOrderAction {
             resultCode = "156";
         }
         //OrderRecord orderRecord = new OrderRecord(0, phonenum, spid, productid, ip, Integer.parseInt(type), new java.sql.Date(new java.util.Date().getTime()));
-        jsonresult.put("err_code", resultCode);
+        jsonresult.put("errcode", resultCode);
         String err_msg = Constants.resultCodeMap.get(resultCode);
         //err_msg = new String(err_msg.getBytes("GBK"));
-        jsonresult.put("err_msg", err_msg);
+        jsonresult.put("errmsg", err_msg);
         System.out.println(jsonresult.toString());
         response.setContentType("application/json;charset=utf-8");
         response.setHeader("Access-Control-Allow-Origin", "*");

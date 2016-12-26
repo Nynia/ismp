@@ -6,7 +6,7 @@
   Time: 17:11
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" pageEncoding="utf-8"%>
 <%@ page isELIgnored="false" %>
 <%
     String path = request.getContextPath();
@@ -96,7 +96,7 @@
             var id = parent.parent().children().first().text();
             $.ajax({
                 type: "GET",
-                url: "http://127.0.0.1:8080/Configure/deleteChargePoint",
+                url: "/ismp/Configure/deleteChargePoint",
                 data: {
                     id: id
                 }
@@ -107,7 +107,7 @@
             description = $('#description').val();
             $.ajax({
                 type: "GET",
-                url: "http://127.0.0.1:8080/Configure/addChargePoint",
+                url: "/ismp/Configure/addChargePoint",
                 data: {
                     productId: '${productid}',
                     desription: description

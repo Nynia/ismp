@@ -84,7 +84,7 @@
                             }
                         },1000);
                         $.ajax({
-                            url: 'http://127.0.0.1:8080/serviceOrder',
+                            url: '/ismp/serviceOrder',
                             type: 'post',
                             dataType:'json',
                             data: {
@@ -116,7 +116,7 @@
                     }
                     else {
                         $.ajax({
-                            url: 'http://127.0.0.1:8080/serviceOrder',// 跳转到 action
+                            url: '/ismp/serviceOrder',// 跳转到 action
                             type: 'post',
                             dataType:'json',
                             data: {
@@ -126,7 +126,7 @@
                                 verCode: vercode
                             },
                             success: function (msg) {
-                                var err_code = msg.err_code;
+                                var err_code = msg.errcode;
                                 switch (err_code) {
                                     case '0':
                                         alert("订购成功");

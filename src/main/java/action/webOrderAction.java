@@ -75,7 +75,7 @@ public class webOrderAction {
         JSONObject jsonresult = new JSONObject();
         String resultCode = "";
 
-        String url = "http://127.0.0.1:8080/serviceOrder?action=subscribe";
+        String url = "http://127.0.0.1:8080/ismp/serviceOrder?action=subscribe";
         String params = String.format("spId=%s&chargeId=%s&timestamp=%s&orderType=%s&accessToken=%s",
                 spid,chargeid,timestamp,type,token);
         String result = HttpRequest.sendPost(url, params);
