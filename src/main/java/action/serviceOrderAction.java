@@ -193,7 +193,7 @@ public class serviceOrderAction {
                         else {
                             String verCode = utils.Tools.genVerCode();
                             String msg = String.format("%s为本次支付验证码。您正在订购%s，价格是%s元/月，验证码2分钟内有效，感谢使用!",
-                                    verCode, orderRecord.getProductname(), orderRecord.getPrice()/1000);
+                                    verCode, orderRecord.getProductname(), orderRecord.getPrice()/100);
                             SMGPSMProxyMethod proxyMethod = new SMGPSMProxyMethod();
                             if (proxyMethod.sendMsg(phonenum, msg)) {
                                 resultCode = "0";
