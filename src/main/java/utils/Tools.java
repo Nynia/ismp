@@ -74,7 +74,7 @@ public class Tools {
         return "";
     }
     public static String checkMdnByIMSI(String imsi, String ip) throws UnsupportedEncodingException {
-        String areaId = getAreaIdByIp(ip);
+        String areaId = getAreaIdByIp2(ip);
         if (areaId == null)
             return "";
         //String url = "http://132.224.218.132:9250/dcninterface/imsiQuery";
@@ -120,7 +120,6 @@ public class Tools {
         String url = "http://apis.juhe.cn/ip/ip2addr";
         String appKey = "eb82c3d5e4e03425cfaff5eedbd0d51b";
         String params = String.format("ip=%s&key=%s",ip,appKey);
-        //String contentType = "application/x-www-form-urlencoded;charset=\"utf-8\"";
         String result = HttpRequest.sendGet(url, params);
         result = new String(result.getBytes(),"UTF-8");
         if (result != null) {
@@ -130,6 +129,27 @@ public class Tools {
             if (resultCode.equals("200")) {
                 JSONObject tj = jsoj.getJSONObject("result");
                 String area = tj.getString("area");
+                if (Constants.areaIdMap.containsKey(area)) {
+                    return Constants.areaIdMap.get(area);
+                }
+            }
+        }
+        return null;
+    }
+    public static String getAreaIdByIp2(String ip) throws UnsupportedEncodingException {
+        String url = "http://ip.taobao.com/service/getIpInfo.php";
+        String params = String.format("ip=%s&format=js",ip);
+        String result = HttpRequest.sendGet(url, params);
+        result = new String(result.getBytes(),"UTF-8");
+        if (result != null) {
+            JSONObject jsoj = JSONObject.parseObject(result);
+            String resultCode = jsoj.get("code").toString();
+            System.out.println("ip查询结果:" + jsoj);
+            if (resultCode.equals("0")) {
+                JSONObject tj = jsoj.getJSONObject("data");
+                String city = tj.getString("city");
+                String region = tj.getString("region");
+                String area = region+city;
                 if (Constants.areaIdMap.containsKey(area)) {
                     return Constants.areaIdMap.get(area);
                 }
