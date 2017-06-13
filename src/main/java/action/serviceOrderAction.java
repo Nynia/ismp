@@ -119,9 +119,9 @@ public class serviceOrderAction {
                             //token
                             if (value.equals(token)) {
                                 if (type.equals("1")) {
-                                    //level = 1
-                                    if (cpuser.getLevel() == 1) {
-                                        if (phonenum != null) {
+                                    int level = cpuser.getLevel();
+                                    if (phonenum != null) {
+                                        if (level == 1 || level == 3) {
                                             //order
                                             String productid = productInfo.getProductId();
                                             resultCode = Tools.subscribe(phonenum, productid);
@@ -130,48 +130,110 @@ public class serviceOrderAction {
                                                         Integer.parseInt(type), new java.sql.Date(new java.util.Date().getTime()));
                                                 orderRecordService.addOrderRecord(order);
                                             }
-                                        } else {
+                                        }
+                                        else {
                                             resultCode = "150";
                                         }
                                     }
-                                    //level = 2
                                     else {
-                                        phonenum = utils.Tools.checkMdnByIMSI(imsi, ip);
-                                        if (phonenum.startsWith("86")) {
-                                            phonenum = phonenum.substring(2);
-                                            System.out.println(phonenum);
+                                        if (level == 1) {
+                                            resultCode = "150";
                                         }
-                                        requestInfoRecod orderRecord = new requestInfoRecod(remoteip, type, spid, chargeid,
-                                                productInfo.getProductName(), Integer.parseInt(productInfo.getPrice()),
-                                                phonenum, "", 0, System.currentTimeMillis(), action, cpuser.getName());
-
-                                        if (phonenum.equals("")) {
-                                            resultCode = "159";
-                                        } else {
-                                            String verCode = utils.Tools.genVerCode();
-                                            String msg = String.format("%s为本次支付验证码。您正在订购%s，价格是%s元/月，验证码2分钟内有效，感谢使用!",
-                                                    verCode, orderRecord.getProductname(), orderRecord.getPrice() / 100);
-                                            SMGPSMProxyMethod proxyMethod = new SMGPSMProxyMethod();
-                                            if (proxyMethod.sendMsg(phonenum, msg)) {
-                                                resultCode = "0";
-                                            } else {
-                                                resultCode = "158";
+                                        else {
+                                            phonenum = utils.Tools.checkMdnByIMSI(imsi, ip);
+                                            if (phonenum.startsWith("86")) {
+                                                phonenum = phonenum.substring(2);
+                                                System.out.println(phonenum);
                                             }
-                                            orderRecord.setVercode(verCode);
-                                            orderRecord.setPhonenum(phonenum);
-                                            orderRecord.setVercodecreatetime(System.currentTimeMillis());
-                                            orderRecord.addReqSeq();
-                                            //recordHashMap.put(orderid, orderRecord);
+                                            requestInfoRecod orderRecord = new requestInfoRecod(remoteip, type, spid, chargeid,
+                                                    productInfo.getProductName(), Integer.parseInt(productInfo.getPrice()),
+                                                    phonenum, "", 0, System.currentTimeMillis(), action, cpuser.getName());
+
+                                            if (phonenum.equals("")) {
+                                                resultCode = "159";
+                                            } else {
+                                                String verCode = utils.Tools.genVerCode();
+                                                String msg = String.format("%s为本次支付验证码。您正在订购%s，价格是%s元/月，验证码2分钟内有效，感谢使用!",
+                                                        verCode, orderRecord.getProductname(), orderRecord.getPrice() / 100);
+                                                SMGPSMProxyMethod proxyMethod = new SMGPSMProxyMethod();
+                                                if (proxyMethod.sendMsg(phonenum, msg)) {
+                                                    resultCode = "0";
+                                                } else {
+                                                    resultCode = "158";
+                                                }
+                                                orderRecord.setVercode(verCode);
+                                                orderRecord.setPhonenum(phonenum);
+                                                orderRecord.setVercodecreatetime(System.currentTimeMillis());
+                                                orderRecord.addReqSeq();
+                                                //recordHashMap.put(orderid, orderRecord);
+                                            }
+                                            recordHashMap.put(orderid, orderRecord);
+                                            JSONObject orderinfo = new JSONObject();
+                                            orderinfo.put("phoneNum", phonenum);
+                                            orderinfo.put("orderId", orderid);
+                                            orderinfo.put("productName", productInfo.getProductName());
+                                            orderinfo.put("price", productInfo.getPrice());
+                                            orderinfo.put("providerName", cpuser.getName());
+                                            jsonresult.put("orderinfo", orderinfo);
                                         }
-                                        recordHashMap.put(orderid, orderRecord);
-                                        JSONObject orderinfo = new JSONObject();
-                                        orderinfo.put("phoneNum", phonenum);
-                                        orderinfo.put("orderId", orderid);
-                                        orderinfo.put("productName", productInfo.getProductName());
-                                        orderinfo.put("price", productInfo.getPrice());
-                                        orderinfo.put("providerName", cpuser.getName());
-                                        jsonresult.put("orderinfo", orderinfo);
                                     }
+//                                    //level = 1
+//                                    if (cpuser.getLevel() == 1) {
+//                                        if (phonenum != null) {
+//                                            //order
+//                                            String productid = productInfo.getProductId();
+//                                            resultCode = Tools.subscribe(phonenum, productid);
+//                                            if (resultCode.equals("0")) {
+//                                                OrderRecord order = new OrderRecord(0, phonenum, spid, chargeid, remoteip,
+//                                                        Integer.parseInt(type), new java.sql.Date(new java.util.Date().getTime()));
+//                                                orderRecordService.addOrderRecord(order);
+//                                            }
+//                                        } else {
+//                                            resultCode = "150";
+//                                        }
+//                                    }
+//                                    //level = 2
+//                                    else if (cpuser.getLevel() == 2) {
+//                                        phonenum = utils.Tools.checkMdnByIMSI(imsi, ip);
+//                                        if (phonenum.startsWith("86")) {
+//                                            phonenum = phonenum.substring(2);
+//                                            System.out.println(phonenum);
+//                                        }
+//                                        requestInfoRecod orderRecord = new requestInfoRecod(remoteip, type, spid, chargeid,
+//                                                productInfo.getProductName(), Integer.parseInt(productInfo.getPrice()),
+//                                                phonenum, "", 0, System.currentTimeMillis(), action, cpuser.getName());
+//
+//                                        if (phonenum.equals("")) {
+//                                            resultCode = "159";
+//                                        } else {
+//                                            String verCode = utils.Tools.genVerCode();
+//                                            String msg = String.format("%s为本次支付验证码。您正在订购%s，价格是%s元/月，验证码2分钟内有效，感谢使用!",
+//                                                    verCode, orderRecord.getProductname(), orderRecord.getPrice() / 100);
+//                                            SMGPSMProxyMethod proxyMethod = new SMGPSMProxyMethod();
+//                                            if (proxyMethod.sendMsg(phonenum, msg)) {
+//                                                resultCode = "0";
+//                                            } else {
+//                                                resultCode = "158";
+//                                            }
+//                                            orderRecord.setVercode(verCode);
+//                                            orderRecord.setPhonenum(phonenum);
+//                                            orderRecord.setVercodecreatetime(System.currentTimeMillis());
+//                                            orderRecord.addReqSeq();
+//                                            //recordHashMap.put(orderid, orderRecord);
+//                                        }
+//                                        recordHashMap.put(orderid, orderRecord);
+//                                        JSONObject orderinfo = new JSONObject();
+//                                        orderinfo.put("phoneNum", phonenum);
+//                                        orderinfo.put("orderId", orderid);
+//                                        orderinfo.put("productName", productInfo.getProductName());
+//                                        orderinfo.put("price", productInfo.getPrice());
+//                                        orderinfo.put("providerName", cpuser.getName());
+//                                        jsonresult.put("orderinfo", orderinfo);
+//                                    }
+//                                    // level= 3
+//                                    else {
+//
+//                                    }
                                 } else if (type.equals("2")) {
                                     //点播
                                     resultCode = "160";
