@@ -26,6 +26,7 @@ public class Constants {
         areaIdMap.put("江苏省宿迁市", "84");
 
         resultCodeMap.put("0", "success");
+        resultCodeMap.put("101", "验证码发送成功");
         resultCodeMap.put("103", "用户号码非法");
         resultCodeMap.put("108", "用户信息不存在");
         resultCodeMap.put("115", "用户已注销");
@@ -39,6 +40,7 @@ public class Constants {
         resultCodeMap.put("131", "订购关系已存在");
         resultCodeMap.put("132", "订购关系不正常");
         resultCodeMap.put("136", "黑名单用户");
+        resultCodeMap.put("138", "消费限额");
         resultCodeMap.put("150", "参数非法");
         resultCodeMap.put("151", "IP非法");
         resultCodeMap.put("152", "产品不存在");
@@ -52,6 +54,8 @@ public class Constants {
         resultCodeMap.put("160", "暂未开通功能");
         resultCodeMap.put("161", "CP不存在");
         resultCodeMap.put("162", "计费代码不存在");
+        resultCodeMap.put("163", "功能已停用");
+        resultCodeMap.put("164", "订单号无效");
         resultCodeMap.put("999", "其他");
     }
 }
